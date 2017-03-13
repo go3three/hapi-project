@@ -121,9 +121,6 @@ const users = {
         id: '2133d32a'
     }
 };
-```
-
-```js
 
 const validate = function (request, username, password, callback) {
     const user = users[username];
@@ -164,24 +161,25 @@ server.register(Basic, (err) => {
     });
 });
 ```
-#### First, awe define our users database,
+
+#### First, we define our users database,
 
 which is a simple object in this example.
 
- #### Then we define a validation function,
+#### Then we define a validation function,
 
- which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
+which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
 
- #### Next, we register the plugin,
+#### Next, we register the plugin,
 
- which creates a scheme with the name of basic. This is done within the plugin via server.auth.scheme().
+which creates a scheme with the name of basic. This is done within the plugin via server.auth.scheme().
 
- #### Once the plugin has been registered,
+#### Once the plugin has been registered,
 
- we use ``server.auth.strategy()`` to create a strategy with the name of ``simple`` that refers to our scheme named basic.
+we use `server.auth.strategy()` to create a strategy with the name of ``simple`` that refers to our scheme named basic.
 
- We also pass an options object that gets passed to the scheme and allows us to configure its behavior.
+We also pass an options object that gets passed to the scheme and allows us to configure its behavior.
 
- #### The last thing we do is
+#### The last thing we do is
 
- tell a route to use the strategy named simple for authentication.
+tell a route to use the strategy named simple for authentication.
