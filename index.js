@@ -66,7 +66,7 @@ server.register(Basic, (err) => {
             auth: 'simple',
             handler: function (request, reply) {
               selectdata(client, query, function(err, result) {
-                  reply(result.rows)
+                  reply(result.rows);
               })
             }
         }
