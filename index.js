@@ -7,9 +7,10 @@ const pg = require('pg');
 const Bcrypt = require('bcrypt');
 const Basic = require('hapi-auth-basic');
 const server = new hapi.Server();
+const Joi = require ('joi')
 const config = {
     user: 'postgres',
-    password: '482106',
+    password: '123456',
     host: 'localhost',
     port: '5432',
     database: 'facebook'
