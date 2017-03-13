@@ -8,7 +8,6 @@ const Bcrypt = require('bcrypt');
 const Basic = require('hapi-auth-basic');
 const Joi = require('joi');
 const server = new hapi.Server();
-const Joi = require ('joi')
 const config = {
     user: 'postgres',
     password: '123456',
