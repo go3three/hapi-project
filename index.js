@@ -9,7 +9,7 @@ const Basic = require('hapi-auth-basic');
 const server = new hapi.Server();
 const config = {
     user: 'postgres',
-    password: '482106',
+    password: '330167',
     host: 'localhost',
     port: '5432',
     database: 'facebook'
@@ -52,30 +52,34 @@ const validate = function (request, username, password, callback) {
         callback(err, isValid, { id: user.id, name: user.name });
     });
 };
+
 server.register(Basic, (err) => {
 
     if (err) {
         throw err;
     }
-
     server.auth.strategy('simple', 'basic', { validateFunc: validate });
     server.route({
         method: 'GET',
         path: '/',
         config: {
             auth: 'simple',
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'private'
+            },
             handler: function (request, reply) {
               selectdata(client, query, function(err, result) {
-                  reply(result.rows);
+                  reply(result.rows).state('data','akram', { encoding: 'none' });
               })
             }
         }
     });
-
     server.route({
         method: 'GET',
         path: '/users/{name}',
         handler: (request, reply) => {
+            console.log('cookie: ',"test");
             const name = encodeURIComponent(request.params.name);
             reply.view("users", {
                 name: name
