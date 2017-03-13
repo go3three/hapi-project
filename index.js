@@ -57,6 +57,7 @@ const validate = function(request, username, password, callback) {
         });
     });
 };
+
 server.register(Basic, (err) => {
 
     if (err) {
@@ -71,18 +72,22 @@ server.register(Basic, (err) => {
         path: '/',
         config: {
             auth: 'simple',
-            handler: function(request, reply) {
-                selectdata(client, query, function(err, result) {
-                    reply(result.rows)
-                })
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'private'
+            },
+            handler: function (request, reply) {
+              selectdata(client, query, function(err, result) {
+                  reply(result.rows).state('data','akram', { encoding: 'none' });
+              })
             }
         }
     });
-
     server.route({
         method: 'GET',
         path: '/users/{name}',
         handler: (request, reply) => {
+            console.log('cookie: ',"test");
             const name = encodeURIComponent(request.params.name);
             reply.view("users", {
                 name: name
