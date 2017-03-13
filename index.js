@@ -6,10 +6,12 @@ const Path = require('path');
 const pg = require('pg');
 const Bcrypt = require('bcrypt');
 const Basic = require('hapi-auth-basic');
+const Joi = require('joi');
 const server = new hapi.Server();
+const Joi = require ('joi')
 const config = {
     user: 'postgres',
-    password: '330167',
+    password: '123456',
     host: 'localhost',
     port: '5432',
     database: 'facebook'
@@ -34,22 +36,25 @@ client.connect(err => {
 const users = {
     john: {
         username: 'john',
-        password: '$2a$10$R7U2Lwe7PUa3h101TvzZuujS6e.nXnT5xhfWH1W9Ct86IvXJz84KS',   // 'secret'
+        password: '$2a$10$R7U2Lwe7PUa3h101TvzZuujS6e.nXnT5xhfWH1W9Ct86IvXJz84KS', // 'secret'
         name: 'John Doe',
         id: '2133d32a'
     },
-    ahmed:{
-      username:'admin'
+    ahmed: {
+        username: 'admin'
     }
-  };
-const validate = function (request, username, password, callback) {
+};
+const validate = function(request, username, password, callback) {
     const user = users[username];
     if (!user) {
         return callback(null, false);
     }
 
     Bcrypt.compare(password, user.password, (err, isValid) => {
-        callback(err, isValid, { id: user.id, name: user.name });
+        callback(err, isValid, {
+            id: user.id,
+            name: user.name
+        });
     });
 };
 
@@ -58,7 +63,10 @@ server.register(Basic, (err) => {
     if (err) {
         throw err;
     }
-    server.auth.strategy('simple', 'basic', { validateFunc: validate });
+
+    server.auth.strategy('simple', 'basic', {
+        validateFunc: validate
+    });
     server.route({
         method: 'GET',
         path: '/',
@@ -87,6 +95,30 @@ server.register(Basic, (err) => {
         }
     });
 
+});
+server.route({
+    method: 'POST',
+    path: '/hello',
+    config: {
+        handler: (request, reply) => {
+            reply.view("ghada");
+        },
+        validate: {
+            payload: {
+                fullname: Joi.string().alphanum().min(3).max(30).required(),
+                password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+                email: Joi.string().email()
+            }
+        }
+    }
+});
+server.route({
+    method: 'GET',
+    path: '/hello',
+    handler: (request, reply) => {
+        const name = encodeURIComponent(request.params.name);
+        reply.view("hello");
+    }
 });
 server.register(vision, (err) => {
     if (err) {

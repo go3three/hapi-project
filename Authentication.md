@@ -1,4 +1,4 @@
- #**Authentication**
+ # **Authentication**
 
 ![alt text](https://achievement-images.teamtreehouse.com/badges_Ruby_UserAuthentication_Stage1.png)
 ___
