@@ -194,31 +194,40 @@ tell a route to use the strategy named simple for authentication.
 
 ### What are helper functions ?
 
-###### functions used in templates to manipulate data
----
-### How they can be implemented in handlebars ?
 
-##### To get started with views, first we have to configure at least one templating engine on the server. This is done by using the server.views method:
+Basically, functions used in templates to manipulate data.
 
-  ```
-  'use strict';
+### How they can be implemented in handlebars?
 
-  const Path = require('path');
-  const Hapi = require('hapi');
-  const Hoek = require('hoek');
+A Handlebars helper call is a simple identifier, followed by zero or more parameters (separated by space). Each parameter is a ```Handlebars expression```.
 
-  const server = new Hapi.Server();
+### What is Handlebars expression?
 
-  server.register(require('vision'), (err) => {
+>Handlebars expressions are the basic unit of a Handlebars template. You can use them alone in a ** {{mustache}} **, pass them to a Handlebars helper or use them as values in hash arguments.
 
-      Hoek.assert(!err, err);
+#### There are 2 kinds of helpers,
 
-      server.views({
-          engines: {
-              html: require('handlebars')
-          },
-          relativeTo: __dirname,
-          path: 'templates'
-      });
-  });
-  ```
+a function helper and a block helper.
+
+The difference is that one is meant for a single expression and the other uses a block expression (a mechanism for invoking a helper with a block of the template).
+
+** Custom Function Helpers **
+
+To create one, we have to register it using the registerHelper() method. Inside your script, add this bit of code at the very top.
+
+```
+//Create a custom function helper to check the status.
+Handlebars.registerHelper( "checkStatus", function ( status ){
+    if (status == "leaving" )
+    {
+        return 'leave';
+    }
+    else
+    {
+        return 'stay';
+    }
+});```
+
+>The first parameter is the name of the expression the user must type in order to use this function helper.
+
+>The second parameter is the function that will execute when the user uses this function helper.

@@ -1,4 +1,6 @@
+
  # Templating with Helper Functions
+
  ---
  ![alt text]( https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAU3AAAAJDgxYjAwNDZmLTZjNzEtNDAzYi1hY2QzLWZjMDdiMzUwNDYzZA.jpg)
 
