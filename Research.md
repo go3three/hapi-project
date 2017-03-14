@@ -189,11 +189,21 @@ tell a route to use the strategy named simple for authentication.
 
 # **Templating with Helper Functions**
 
----
 ![alt text]( https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAU3AAAAJDgxYjAwNDZmLTZjNzEtNDAzYi1hY2QzLWZjMDdiMzUwNDYzZA.jpg)
 
-### What are helper functions ?
+### A glance on why we use handlebars.js or any JS templating engines.
 
+  * You use a JavaScript front-end framework; most front-end JavaScript frameworks rely on templating engines.
+
+  * The application’s view (the HTML page or portions of the page) will be updated frequently, especially as a result of changes to the data either from the server via a REST API or from data on the client.
+
+  * Your application has much interactivity and it is very responsive.
+
+  * You are developing a single-page web application with multiple views.
+
+  * You want to easily manage your HTML content; you don’t want your JavaScript code to contain important HTML markup.
+
+### What are helper functions ?
 
 Basically, functions used in templates to manipulate data.
 
@@ -215,7 +225,7 @@ The difference is that one is meant for a single expression and the other uses a
 
 To create one, we have to register it using the registerHelper() method. Inside your script, add this bit of code at the very top.
 
-```
+```js
 //Create a custom function helper to check the status.
 Handlebars.registerHelper( "checkStatus", function ( status ){
     if (status == "leaving" )
@@ -231,3 +241,17 @@ Handlebars.registerHelper( "checkStatus", function ( status ){
 >The first parameter is the name of the expression the user must type in order to use this function helper.
 
 >The second parameter is the function that will execute when the user uses this function helper.
+
+Our function helper has 1 parameter and that’s the status of our user. Depending on the status, we’ll return different messages. By doing this, we can have custom conditional logic in our templates.
+
+```js
+var menuData = {
+    name: "jack",
+    status: "leaving",
+};
+
+<script id="menu-template" type="text/x-handlebars-template">
+    Welcome {{name}}, <a href="#">Click here to {{checkStatus status}}</a>
+</script>
+```
+To use our function helper, we just type in the name in our expression. To pass in the parameters, you just type them in after our function helper. If we had multiple parameters, you would just separate them with spaces.
